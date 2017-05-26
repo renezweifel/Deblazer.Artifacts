@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="WideWorldImporters" EntityNamespace="Deblazer.WideWorldImporter.DbLayer"
+ ContextNamespace="Deblazer.WideWorldImporter.DbLayer" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="Sales.BuyingGroups" Member="Sales_BuyingGroups">
+    <Type Name="Sales_BuyingGroup">
+      <Column Name="BuyingGroupID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="BuyingGroupName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LastEditedBy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ValidFrom" Type="System.DateTime" DbType="DateTime2(7) NOT NULL" CanBeNull="false" />
+      <Column Name="ValidTo" Type="System.DateTime" DbType="DateTime2(7) NOT NULL" CanBeNull="false" />
+      <Column Name="SomeComputedField" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" IsDbGenerated="True" />
+	  <Column Name="RowVersion" Type="System.Data.Linq.Binary" DbType="rowversion NOT NULL" CanBeNull="false" IsVersion="true" />
+      <Association Name="FK_Sales_BuyingGroups_Application_People" Member="Application_People" ThisKey="LastEditedBy" OtherKey="PersonID" Type="Application_People" IsForeignKey="true" />
+      <Association Name="FK_Sales_Customers_BuyingGroupID_Sales_BuyingGroups" Member="Sales_Customers" ThisKey="BuyingGroupID" OtherKey="BuyingGroupID" Type="Sales_Customer" DeleteRule="NO ACTION" />
+      <Association Name="FK_Sales_SpecialDeals_BuyingGroupID_Sales_BuyingGroups" Member="Sales_SpecialDeals" ThisKey="BuyingGroupID" OtherKey="BuyingGroupID" Type="Sales_SpecialDeal" DeleteRule="NO ACTION" />
+	  <Association Name="FK_CARDINALITY_PLACEHOLDER" Member="OnlySchemaMember" ThisKey="Id" OtherKey="Id" Type="Type" Cardinality="One" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="Sales.BuyingGroups_Archive" Member="Sales_BuyingGroups_Archives">
+    <Type Name="Sales_BuyingGroups_Archive">
+      <Column Name="BuyingGroupID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BuyingGroupName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LastEditedBy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ValidFrom" Type="System.DateTime" DbType="DateTime2(7) NOT NULL" CanBeNull="false" />
+      <Column Name="ValidTo" Type="System.DateTime" DbType="DateTime2(7) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="Application.Cities" Member="Application_Cities">
+    <Type Name="Application_City">
+      <Column Name="CityID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CityName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="StateProvinceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LatestRecordedPopulation" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="LastEditedBy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ValidFrom" Type="System.DateTime" DbType="DateTime2(7) NOT NULL" CanBeNull="false" />
+      <Column Name="ValidTo" Type="System.DateTime" DbType="DateTime2(7) NOT NULL" CanBeNull="false" />
+      <Association Name="FK_Application_Cities_Application_People" Member="Application_People" ThisKey="LastEditedBy" OtherKey="PersonID" Type="Application_People" IsForeignKey="true" />
+      <Association Name="FK_Application_Cities_StateProvinceID_Application_StateProvinces" Member="Application_StateProvince" ThisKey="StateProvinceID" OtherKey="StateProvinceID" Type="Application_StateProvince" IsForeignKey="true" />
+      <Association Name="FK_Application_SystemParameters_DeliveryCityID_Application_Cities" Member="Application_SystemParameters" ThisKey="CityID" OtherKey="DeliveryCityID" Type="Application_SystemParameter" DeleteRule="NO ACTION" />
+      <Association Name="FK_Application_SystemParameters_PostalCityID_Application_Cities" Member="Cities" ThisKey="CityID" OtherKey="PostalCityID" Type="Application_SystemParameter" DeleteRule="NO ACTION" />
+      <Association Name="FK_Purchasing_Suppliers_DeliveryCityID_Application_Cities" Member="Purchasing_Suppliers" ThisKey="CityID" OtherKey="DeliveryCityID" Type="Purchasing_Supplier" DeleteRule="NO ACTION" />
+      <Association Name="FK_Purchasing_Suppliers_PostalCityID_Application_Cities" Member="Purchasing_Suppliers_PostalCityID_Application_Cities" ThisKey="CityID" OtherKey="PostalCityID" Type="Purchasing_Supplier" DeleteRule="NO ACTION" />
+      <Association Name="FK_Sales_Customers_DeliveryCityID_Application_Cities" Member="Sales_Customers" ThisKey="CityID" OtherKey="DeliveryCityID" Type="Sales_Customer" DeleteRule="NO ACTION" />
+      <Association Name="FK_Sales_Customers_PostalCityID_Application_Cities" Member="Sales_Customers_PostalCityID_Application_Cities" ThisKey="CityID" OtherKey="PostalCityID" Type="Sales_Customer" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="Application.Cities_Archive" Member="Application_Cities_Archives">
+    <Type Name="Application_Cities_Archive">
+      <Column Name="CityID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CityName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="StateProvinceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LatestRecordedPopulation" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="LastEditedBy" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ValidFrom" Type="System.DateTime" DbType="DateTime2(7) NOT NULL" CanBeNull="false" />
+      <Column Name="ValidTo" Type="System.DateTime" DbType="DateTime2(7) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Function Name="Application.AddRoleMemberIfNonexistent" Method="Application_AddRoleMemberIfNonexistent">
+    <Parameter Name="RoleName" Parameter="roleName" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="NVarChar(128)" />
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="Application.Configuration_ApplyAuditing" Method="Application_Configuration_ApplyAuditing">
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="Application.Configuration_ApplyRowLevelSecurity" Method="Application_Configuration_ApplyRowLevelSecurity">
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="Application.Configuration_RemoveAuditing" Method="Application_Configuration_RemoveAuditing">
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="Application.Configuration_RemoveRowLevelSecurity" Method="Application_Configuration_RemoveRowLevelSecurity">
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="Application.CreateRoleIfNonexistent" Method="Application_CreateRoleIfNonexistent">
+    <Parameter Name="RoleName" Parameter="roleName" Type="System.String" DbType="NVarChar(128)" />
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="Application.DetermineCustomerAccess" Method="Application_DetermineCustomerAccess" IsComposable="true">
+    <Parameter Name="CityID" Parameter="cityID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Application_DetermineCustomerAccessResult">
+      <Column Name="AccessResult" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="DataLoadSimulation.Configuration_RemoveDataLoadSimulationProcedures" Method="DataLoadSimulation_Configuration_RemoveDataLoadSimulationProcedures">
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="dbo.fn_diagramobjects" Method="Fn_diagramobjects" IsComposable="true">
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="dbo.sp_alterdiagram" Method="Sp_alterdiagram">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="version" Type="System.Int32" DbType="Int" />
+    <Parameter Name="definition" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" />
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="dbo.sp_creatediagram" Method="Sp_creatediagram">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="version" Type="System.Int32" DbType="Int" />
+    <Parameter Name="definition" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" />
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="dbo.sp_dropdiagram" Method="Sp_dropdiagram">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" DbType="Int" />
+  </Function>
+  <Function Name="dbo.sp_helpdiagramdefinition" Method="Sp_helpdiagramdefinition">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Sp_helpdiagramdefinitionResult">
+      <Column Name="version" Member="Version" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="definition" Member="Definition" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.sp_helpdiagrams" Method="Sp_helpdiagrams">
+    <Parameter Name="diagramname" Type="System.String" DbType="NVarChar(128)" />
+    <Parameter Name="owner_id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="Sp_helpdiagramsResult">
+      <Column Name="Database" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Owner" Type="System.String" DbType="NVarChar(128)" CanBeNull="true" />
+      <Column Name="OwnerID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>
