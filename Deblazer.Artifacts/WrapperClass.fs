@@ -6,6 +6,10 @@
 
     type QueryElColumn = { queryElMemberIdentifier:string; queryElMemberType:string; fieldName:string }
 
+        let getColumnType (column:column) = match column.Type with
+        | "System.Data.Linq.Binary" -> "System.Byte[]"
+        | _ -> column.Type
+
     let wrapperInstance (className:string) =
         let wrapperName = String.Format("{0}Wrapper", className)
         sf.FieldDeclaration(
@@ -86,7 +90,7 @@
                 |> Array.map (fun column ->
                     {
                         queryElMemberIdentifier = getQueryElMemberTypeNonFk column.IsNullableType;
-                        queryElMemberType = column.Type ;
+                        queryElMemberType = getColumnType column ;
                         fieldName = column.Member
                     })
         

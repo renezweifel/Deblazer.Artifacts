@@ -5,13 +5,15 @@
     open Microsoft.CodeAnalysis.CSharp
     open Microsoft.CodeAnalysis.CSharp.Syntax
 
+    let getColumnType (column:column) = match column.Type with
+        | "System.Data.Linq.Binary" -> "System.Byte[]"
+        | _ -> column.Type
+
     let usings (nameSpace:string) = 
         [|
            sf.UsingDirective(sf.ParseName("System"))
            sf.UsingDirective(sf.ParseName("System.ComponentModel"))
-           sf.UsingDirective(sf.ParseName("System.Data.Linq"))
            sf.UsingDirective(sf.ParseName("System.Linq"))
-           sf.UsingDirective(sf.ParseName("System.Data.Linq.Mapping"))
            sf.UsingDirective(sf.ParseName("System.Data.SqlClient"))
            sf.UsingDirective(sf.ParseName("System.Data"))
            sf.UsingDirective(sf.ParseName("System.Collections.Generic"))
@@ -38,7 +40,7 @@
     let columnFields (table:table) = 
         table.Columns 
             |> Array.map (fun column -> 
-                let typeSyntax = sf.ParseTypeName("DbValue<"+column.Type+">")
+                let typeSyntax = sf.ParseTypeName("DbValue<"+getColumnType column+">")
                 sf.FieldDeclaration(
                     sf
                         .VariableDeclaration(                            
@@ -79,9 +81,8 @@
         |> Array.filter (fun x -> x.IsSome) |> Array.map (fun x -> x.Value)
 
     let constructorBody (columns:column[]) = 
-         columns |> Array.map (fun column -> sf.ParseStatement(String.Format("{0} = new DbValue<{1}>();", column.Storage, column.Type)))
-
-
+         columns |> Array.map (fun column -> sf.ParseStatement(String.Format("{0} = new DbValue<{1}>();", column.Storage, getColumnType column)))
+         
     let getConstructor (table:table) =
         sf.ConstructorDeclaration(table.Member)
             .AddModifiers(sf.Token(sk.PublicKeyword))
@@ -185,7 +186,7 @@
                                     sf.MemberAccessExpression(
                                         sk.SimpleMemberAccessExpression, 
                                         sf.IdentifierName("visitor"), 
-                                        sf.IdentifierName((getFillerMethodName column.Type column.IsNullableType)))))))))
+                                        sf.IdentifierName((getFillerMethodName (getColumnType column) column.IsNullableType)))))))))
 
     let modifyInternalStateLoadFieldExpressions (columns:column[]) = 
         columns |> Array.map (fun column -> 
@@ -973,7 +974,7 @@
                 |> Array.map (fun x -> x.Value)
     let columnProperties (columns:column[]) =
         columns |> Array.map (fun column -> 
-            sf.PropertyDeclaration(sf.ParseTypeName(column.Type), column.Member)
+            sf.PropertyDeclaration(sf.ParseTypeName(getColumnType column), column.Member)
                 .WithAttributeLists(sf.List(propertyAttributes column))
                 .AddModifiers(sf.Token(sk.PublicKeyword))
                 .AddAccessorListAccessors(
